@@ -1,0 +1,75 @@
+version: "3.6"
+
+services:
+
+  traefik:
+    image: "traefik:v2.1"
+    container_name: "traefik"
+    command:
+      #- "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  whoami:
+    image: "containous/whoami"
+    container_name: "simple-service"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.service=whoami"
+      - "traefik.http.routers.whoami.rule= Host(`whoami.lemmi.be`)"
+      - "traefik.http.routers.whoami.entrypoints=web"
+      - "traefik.http.services.whoami.loadbalancer.server.port=80"
+  cakeshop:
+    image: quorumengineering/cakeshop
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.cakeshop.service=cakeshop"
+      - "traefik.http.routers.cakeshopquorum.service=cakeshopquorum"
+      - "traefik.http.routers.cakeshop.rule=Host(`cakeshop.lemmi.be`)"
+      - "traefik.http.routers.cakeshop.entrypoints=web"
+      - "traefik.http.services.cakeshop.loadbalancer.server.port=8080"
+
+  quorum:
+    container_name: quorum
+    image: quorumengineering/quorum
+    volumes:
+      - ./start.sh:/start.sh
+      - ./datadir/genesis.json:/qdata/dd/genesis.json
+      - ./datadir/nodekey:/qdata/dd/nodekey
+      - ./datadir/static-nodes.json:/qdata/dd/static-nodes.json
+      - ./datadir/keystore:/qdata/dd/keystore
+    entrypoint: /start.sh
+    ports:
+      - 8545:8545
+      - 8546:8546
+      - 30303:30303
+      - 30303:30303/udp
+      - 50400:50400
+    environment:
+      - PRIVATE_CONFIG=ignore
+      - QUORUM_CONSENSUS=raft
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.quorum.service=quorum"
+      - "traefik.http.routers.quorum.rule=Host(`quorum.lemmi.be`)"
+      - "traefik.http.routers.quorum.entrypoints=web"
+      - "traefik.http.services.quorum.loadbalancer.server.port=8545"
+    restart: always
+volumes:
+  "quorum_data":
+
+networks:
+  quorum-examples-net:
+    name: quorum-examples-net
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.239.0/24

@@ -1,7 +1,7 @@
 # ENGG4000
 This repository contains all code that was written in the completion of our senior design project. In the above directory, there are folders which contain code and environment configurations for the main components of the project. Each folder will contain an README.md file with more information about the code.
 
-## Overview of folder
+## Overview of folders
 pi-zero-dev/
 contains all source code related to opertation of the rasperry pi zero. Including set up, testing, subsystem integration, etc.
 

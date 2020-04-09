@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <title>Protocol Converter</title>
+		<meta charset="utf8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	</head>
+	<body>
+		<div class="container-fluid">
+		    <div class="text-center mt-4">
+		        Smart City Digital Foundation</br><b>Protocol Converter Prototype</b></br>Refresh time: {{ datetime }}
+		    </div>
+        	<div class="row">
+        		<div class="col-lg mt-4">
+        		    <div class="card">
+        		        <div class="card-body">
+        		            <h5 class="card-title">Submit a sample request</h5>
+        		            <form id="sample-form" method="POST" action="/api/sensor/data/new">
+        		                <div class="form-group">
+        		                    <label for="sensorid">Sensor ID</label>
+        		                    <input type="text" class="form-control" id="sensorid" aria-describedby="sensoridHelp" name="id">
+                                    <small id="sensoridHelp" class="form-text text-muted">Unique sensor identifier</small>
+        		                </div>
+        		                <div class="form-group">
+        		                    <label for="sensorkey">Sensor key</label>
+        		                    <input type="text" class="form-control" id="sensorkey" name="key">
+        		                </div>
+        		                <div class="form-group">
+        		                    <label for="converterid">Converter ID</label>
+        		                    <input type="text" class="form-control" id="converterid" aria-describedby="converteridHelp" name="conv_id">
+                                    <small id="converteridHelp" class="form-text text-muted">Unique converter identifier</small>
+        		                </div>
+        		                <div class="form-group">
+        		                    <label for="sensordata">Data</label>
+        		                    <input type="text" class="form-control" id="sensordata" aria-describedby="sensordataHelp" name="data">
+                                    <small id="sensordataHelp" class="form-text text-muted">JSON formatted sensor data</small>
+        		                </div>
+        		                <button id="sample-form-submit" type="submit" class="btn btn-primary">Submit</button>
+        		            </form>
+        		        </div>
+        		    </div>
+        		</div>
+        		<div class="col-lg mt-4">
+        		    <div class="card">
+        		        <div class="card-body">
+		                    <h5 class="card-title">Create a new conversion module</h5>
+        		            <form id="sensor-form" method="POST" action="/api/sensor/new">
+        		                <div class="form-group">
+        		                    <label for="modulename">Module name</label>
+        		                    <input type="text" class="form-control" id="modulename" aria-describedby="modulenameHelp" name="modulename">
+                                    <small id="modulenameHelp" class="form-text text-muted">Choose a name that describes the device you're creating</small>
+        		                </div>
+        		                <div class="form-group">
+        		                    <label for="editor">Conversion module logic</label>
+        		                    <div id="editor" style="height: 300px;"># -*- coding: utf-8 -*-
+# !!!Do not remove the above line!!!
+
+# =====================================
+# SMART CITY CONVERSION MODULE
+# Place conversion logic between arrows
+# =====================================
+import json
+
+with open("input.json", "r") as fi:
+    input_data = json.load(fi)
+    output_data = {}
+    fi.close()
+# ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+
+# Example logic, remove and add your own!
+output_data["val"] = input_data["value"]
+output_data["timestamp"] = input_data["time"]*1000
+geo = input_data["geo"].split(",")
+output_data["lat"] = geo[0]
+output_data["lon"] = geo[1]
+
+# ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+print(json.dumps(output_data))
+# =====================================</div>
+        		                    <small id="editorHelp" class="form-text text-muted">Note: <code>output_data</code> must contain fields <code>val</code>, <code>timestamp</code>, <code>lat</code>, and <code>lon</code></small>
+        		                </div>
+        		                <textarea id="sensorlogic" name="sensorlogic" style="display: none;"></textarea>
+        		                <button id="sensor-form-submit" type="button" class="btn btn-primary">Submit</button>
+        		            </form>
+        		        </div>
+        		    </div>
+        		</div>
+        	</div>
+        </div>
+		
+		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script src="static/js/ace.js" type="text/javascript" charset="utf-8"></script>
+        <script>
+            /*global ace*/
+            /*global $*/
+            const editor = ace.edit("editor");
+            editor.setTheme("ace/theme/monokai");
+            editor.session.setMode("ace/mode/python");
+            
+            const onSubmitSensForm = function(){
+                $("#sensorlogic").val(editor.getValue());
+                console.log($("#sensorlogic").val());
+                $("#sensor-form").submit();
+            }
+            
+            //$("#sensor-form").submit(onSubmitSensForm);
+            $("#sensor-form-submit").click(onSubmitSensForm);
+        </script>
+	</body>
+</html>

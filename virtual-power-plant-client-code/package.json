@@ -1,0 +1,25 @@
+{
+  "name": "quorum-js-test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/graywolftech/quorum-js-test",
+  "author": "Matthew Sampson <matthew@graywolfai.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "@types/jest": "^24.9.1",
+    "@types/node": "^13.5.0",
+    "quorum-js": "^0.3.4",
+    "ts-jest": "^25.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "@types/web3": "^1.2.2",
+    "babel-jest": "^25.1.0",
+    "jest": "^25.1.0",
+    "typescript": "^3.7.5"
+  }
+}

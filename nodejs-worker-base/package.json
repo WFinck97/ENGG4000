@@ -1,0 +1,25 @@
+{
+  "name": "birra-contact-worker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tsc": "tsc",
+    "dev": "ts-node-dev --respawn --prefer-ts --transpileOnly ./src/app.ts",
+    "prod": "tsc && node ./dist/app.js"
+  },
+  "author": "Matthew Sampson",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/death": "^1.1.0",
+    "@types/node": "^13.9.5",
+    "ts-node-dev": "^1.0.0-pre.44",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "death": "^1.1.0",
+    "dotenv": "^8.2.0",
+    "node-rdkafka": "^2.7.4"
+  }
+}

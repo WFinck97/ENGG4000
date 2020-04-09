@@ -1,0 +1,32 @@
+{
+  "name": "birra-access-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "tsc": "tsc",
+    "dev": "ts-node-dev --respawn --transpileOnly ./app/app.ts",
+    "prod": "tsc && node ./dist/app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@typegoose/typegoose": "^6.4.0",
+    "@types/express": "^4.17.3",
+    "@types/mongoose": "^5.7.8",
+    "body-parser": "^1.19.0",
+    "death": "^1.1.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "firebase-admin": "^8.10.0",
+    "mongoose": "^5.9.6",
+    "node-rdkafka": "^2.7.4",
+    "ts-mongo-models": "file:../ts-mongo-models",
+    "ts-node-dev": "^1.0.0-pre.44",
+    "typescript": "^3.8.3"
+  },
+  "devDependencies": {
+    "@types/death": "^1.1.0"
+  }
+}

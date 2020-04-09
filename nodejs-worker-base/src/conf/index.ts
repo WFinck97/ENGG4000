@@ -1,0 +1,1 @@
+export { DefaultConfig, IConfig } from "./DefaultConfig";
